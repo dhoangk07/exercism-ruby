@@ -4,13 +4,14 @@ class Squares
   end
 
   def square_of_sum
-    (@ranges.sum)**2
+    (@ranges.sum) ** 2
   end
 
   def sum_of_squares
     arr = []
-    @ranges.each do |ele|
-      arr << ele**2
+    # clearer naming. element instead of ele
+    @ranges.each do |element|
+      arr << element ** 2
     end
     arr.sum
   end

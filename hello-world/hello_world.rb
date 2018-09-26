@@ -1,5 +1,6 @@
 module HelloWorld
   def self.hello
-    "Hello, World!"
+    # use single quote
+    'Hello, World!'
   end
 end

@@ -1,12 +1,15 @@
 class FlattenArray
   def self.flatten(array)
-    flat_array = array.flatten
-    flat_array.each do |elem|
-      if elem == nil
-        flat_array.delete(elem)
+    result = []
+    if array.kind_of?(Array)
+      array.each do |element|
+        if element.kind_of?(Integer)
+          result << element
+        else
+          result += flatten(element)
+        end
       end
     end
-    flat_array
+    result
   end
 end
-

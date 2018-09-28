@@ -1,7 +1,6 @@
 require 'minitest/autorun'
 require_relative 'space_age'
 require 'minitest/pride'
-
 # Common test data version: 1.1.0 8d4df79
 class SpaceAgeTest < Minitest::Test
   # assert_in_delta will pass if the difference

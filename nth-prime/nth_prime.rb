@@ -9,16 +9,17 @@ class Prime
   end
 
   def self.nth(number)
-    array = []
-    for i in (2..number) do
-      if self.primes?(i) == true
-        arr << i
-      end
-    end
+    result = []
     if number == 0
       raise ArgumentError.new("Please input suitable number")
     elsif number == 1
       return 2
     end
+    for i in (2..1000000000) do
+      if self.primes?(i) == true
+        result << i
+      end
+    end
+    result[number+1]
   end
 end

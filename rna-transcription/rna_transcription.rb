@@ -1,23 +1,22 @@
 class Complement
-  def self.of_dna(nucleotides)
-    def change_one_element
-      if nucleotides == ''
-        return ''
-      else
-        split_elems = nucleotides.split('')
-        arr = []
-        split_elems.each do |elem|
-          if elem == 'G'
-            return 'C'
-          elsif elem == 'C'
-            return 'G'
-          elsif elem == 'T'
-            return 'A'
-          else elem == 'A'
-            return 'U'
-          end
-        end
-      end
+  def self.change_one_word(word)
+    if word == 'G'
+      return 'C'
+    elsif word == 'C'
+      return 'G'
+    elsif word == 'T'
+      return 'A'
+    else word == 'A'
+      return 'U'
     end
   end
+
+  def self.of_dna(nucleotides)
+    result = []
+    nucleotides.split('').each do |element|
+      result << self.change_one_word(element)
+    end
+    result.join
+  end
 end
+

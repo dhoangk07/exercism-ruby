@@ -1,22 +1,20 @@
 class Prime
-  def self.primes?(factor)
-    arr_factor = (1..factor).select { |n|factor % n == 0}
-    if arr_factor.length == 2 && arr_factor[1] == factor && arr_factor[0] == 1
-      return true
-    else 
-      return false
-    end
+  def self.primes?(integer)
+    (2..integer/2).each {|x| return false if (integer % x) == 0 }
+    true
   end
 
   def self.nth(number)
-    result = []
+    count = 0
+    i = 2
     raise ArgumentError if number == 0
-    result = 2 if number == 1
-    for i in (2..1000000000) do
-      if self.primes?(i) == true
-        result << i
-      end
+    while count < number-1 do
+        i += 1 
+        if self.primes?(i) == true
+          count += 1
+        end
     end
-    result[number+1]
+    i
   end
 end
+

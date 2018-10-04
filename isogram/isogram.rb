@@ -1,16 +1,16 @@
 require 'byebug'
 class Isogram
-  def self.isogram?(input='')
-        # debugger
-    input = input.downcase.scan(/[a-z]/).join.split("")
-    input.length == input.uniq.length
-    # initial_arrays = input.scan(/\w+/).join.split("")
-    # arrays = input.downcase.scan(/[a-z]/).join.split("")
-    # return true if input == ""
-    # return false if arrays.uniq.length != initial_arrays.length
-    # return true if arrays.uniq.length == initial_arrays.length
-
+  def self.uniq(input)
+    result = []
+    arrays = input.downcase.scan(/\w+/).join('').split("")
+    arrays.each do |element|
+      result << element if result.join.include?(element) == false
+    end
+    result
+  end
+  def self.isogram?(string)
+    a = string.downcase.scan(/\w+/).join("").split("")
+    a.length == self.uniq(string).length
   end
 end 
 
-puts Isogram.isogram?("Emily Jung Schwartzkopf")

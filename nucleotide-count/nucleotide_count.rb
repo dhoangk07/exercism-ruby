@@ -1,37 +1,23 @@
 require 'byebug'
 class Nucleotide
-   attr_reader :acids
-
-  def initialize(acids)
-    @acids = acids
-  end   
+  def initialize(strand)
+    @strand = strand
+  end
 
   def self.from_dna(strand)
-    acids = strand.chars
+    strand.each_char { |element| raise ArgumentError if !"ACTG".include?(element) }
+    self.new(strand)
+  end
+
+  def count(value)
+    @strand.count(value)
   end
 
   def histogram
-        # debugger
-    aa = []
-    tt = []
-    cc = []
-    gg = []
-    array_strings = string.split("")
-    array_strings.each do |element|
-      if element == 'A'
-        aa << element
-      elsif element == 'T'
-        tt << element
-      elsif element == 'C'
-        cc << element
-      elsif element == "G"
-        gg << element 
-      end
-    end
-      hash = {"A": aa.count, "T": tt.count, "C": cc.count, "G": gg.count}
+    h1 = { 'A' => 0, 'T' => 0, 'C' => 0, 'G' => 0} 
+    h1.merge!({'A' => @strand.count("A"),
+               'G' => @strand.count("G"),
+               'T' => @strand.count("T"),
+               'C' => @strand.count("C")})
   end
 end
-
-# puts Nucleotide.from_dna('GGGGGTAACCCGG')
-puts Nucleotide.from_dna('GGGGGGGG').histogram
-# 'AGCTTTTCATTCTGACTGCAACGGGCAATATGTCTCTGTGTGGATTAAAAAAAGAGTGTCTGATAGCAGC'

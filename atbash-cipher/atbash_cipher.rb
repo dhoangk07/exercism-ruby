@@ -5,11 +5,13 @@ class Atbash
     rev << array.pop until array.empty?
     rev
   end 
+
   def self.initial_hash
     a = ('a'..'z').to_a
     b = a.reverse
     hash = Hash[a.zip b]
   end
+
   def self.slice_five(array)
     new_array = array.each_slice(5).to_a
     result = []
@@ -18,6 +20,7 @@ class Atbash
     end
     result.join(" ")
   end
+  
   def self.encode(string)
     arrays = string.downcase.scan(/\w+/).join("").split("")
     result = []

@@ -5,8 +5,8 @@ class ETL
     result = {}
     new_hash.keys.each do |element|
       element.each do |item|
-        a = {item.downcase => new_hash[element]}
-        result.merge!a
+        # a = {item.downcase => new_hash[element]}
+        result.merge!(item.downcase => new_hash[element])
       end  
       result  
     end 

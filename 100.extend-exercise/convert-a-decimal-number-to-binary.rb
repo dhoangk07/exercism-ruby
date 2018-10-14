@@ -4,7 +4,7 @@ class ConvertADecimalNumberToBinary
     return 0 if number == 0
     ret_bin = ''
     while(number != 0)
-      ret_bin = String(number % 2) + ret_bin
+      ret_bin = (number % 2).to_s + ret_bin
       number = number / 2
     end
     ret_bin

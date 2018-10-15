@@ -1,20 +1,24 @@
 require 'byebug'
 class SpaceAge
   def initialize(seconds)
-    @seconds = seconds
+    @seconds = seconds 
   end
-  PLANET = { mercury: 7_600_530.24,
-             venus: 19_413_907.2,
-             earth: 31_558_149.76,
-             mars: 59_354_294.4,
-             jupiter: 374_335_776.0,
-             saturn: 929_596_608.0,
-             uranus: 2_661_041_808.0,
-             neptune: 5_200_418_592.0
+  EARTH_DAY = 31557600.to_f
+  DELTA = 0.01
+  PLANET = { mercury: 0.2408467*EARTH_DAY,
+             venus: 0.61519726*EARTH_DAY,
+             earth: EARTH_DAY,
+             mars: 1.8808158*EARTH_DAY,
+             jupiter: 11.862615*EARTH_DAY,
+             saturn: 29.447498*EARTH_DAY,
+             uranus: 84.016846*EARTH_DAY,
+             neptune: 164.79132*EARTH_DAY
             }
     PLANET.each do |planet, orbital_period|
     define_method("on_#{planet}") do
-      @seconds / orbital_period
+      divide = @seconds / orbital_period
+      result = divide.round(2)
+      return result if (divide-result).abs <= DELTA
     end
   end
 end

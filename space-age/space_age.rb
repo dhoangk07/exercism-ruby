@@ -1,22 +1,20 @@
+require 'byebug'
 class SpaceAge
-  def initialize(age)
-    EARTH_DAY = 31557600
-    @age = age
+  def initialize(seconds)
+    @seconds = seconds
   end
-
-  def on_earth
-     
-  end 
+  PLANET = { mercury: 7_600_530.24,
+             venus: 19_413_907.2,
+             earth: 31_558_149.76,
+             mars: 59_354_294.4,
+             jupiter: 374_335_776.0,
+             saturn: 929_596_608.0,
+             uranus: 2_661_041_808.0,
+             neptune: 5_200_418_592.0
+            }
+    PLANET.each do |planet, orbital_period|
+    define_method("on_#{planet}") do
+      @seconds / orbital_period
+    end
+  end
 end
-
-#  - Earth: orbital period 365.25 Earth days, or 31557600 seconds
-#    - Mercury: orbital period 0.2408467 Earth years
-#    - Venus: orbital period 0.61519726 Earth years
-#    - Mars: orbital period 1.8808158 Earth years
-#    - Jupiter: orbital period 11.862615 Earth years
-#    - Saturn: orbital period 29.447498 Earth years
-#    - Uranus: orbital period 84.016846 Earth years
-#    - Neptune: orbital period 164.79132 Earth years
-
-# So if you were told someone were 1,000,000,000 seconds old, you should
-# be able to say that they're 31.69 Earth-years old.

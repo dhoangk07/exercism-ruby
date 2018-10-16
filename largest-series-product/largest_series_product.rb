@@ -2,61 +2,24 @@ require "byebug"
 class Series
   def initialize(number)
     @number = number
+    raise ArgumentError if @number.scan(/[a-z]/).length >= 1
   end
 
-  # def largest_product(series)
-  #   number_arrays = @number.split("")
-  #   raise ArgumentError if (series < 0 || @number.scan(/[a-z]/).size == 1 || @number.length < series)
-  #   return 1 if series == 0 && @number == ""
-  #   result = []
-  #     while 
-  #   end
-  #   result
-  # end
-
-  # def take_array(array, value)
-  #   result = []
-  #   take_array = array.take(6)
-  #   shift_arrays = array.shift
-  #   result << multiple(array)
-  # end
-
-  # def multiple(array)
-  #   result = 1
-  #   array.each do |element|
-  #     result *= element.to_i
-  #   end
-  #   result
-  # end
-
-  def self.take_array(array, value)
-    result = ""
-    final_result = []
-    initial_arrays = array.split("")
-    take_arrays = initial_arrays.take(value)
-    while initial_arrays.length > take_arrays.length do
-          debugger
-      result = remain_array(initial_arrays) + result
-      take_arrays = remain_array.take(value)
-      final_result << multiple(take_arrays)
+  def largest_product(value)
+    result = []
+    length_value = @number.length - value
+    arrays = @number.split("")
+    raise ArgumentError if length_value < 0 || value < 0 
+    for element in (0..length_value)
+      slice_array = arrays.slice(element, value)
+      result << multiple_element(slice_array)
     end
-    final_result
+    result.max
   end
 
-  def self.multiple(array)
+  def multiple_element(array)
     result = 1
-    array.each do |element|
-      result *= element.to_i
-    end
+    array.each { |item| result *= item.to_i }
     result
   end
-
-  def self.remain_array(array)
-    array.shift
-    array
-  end
 end
-
-# puts Series.new('73167176531330624919225119674426574742355349194934').largest_product(6)
-
-puts Series.take_array('73167176531330624919225119674426574742355349194934', 6)

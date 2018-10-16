@@ -6,7 +6,7 @@ class WordProblem
 
   def answer
     arrays = @string.gsub!('?', '').split(' ')
-        debugger
+        # debugger
     remove_items = remove_element(arrays)
     switch_items = switch_element(remove_items)
     multiple_element(switch_items)
@@ -57,10 +57,15 @@ class WordProblem
     end
     result
   end
+
+  def handle_simple_expression(operand_1, operator, operand_2)
+    case operator
+    when '*'
+      operand_1.to_i * operand_2.to_i
+    when '+'
+      operand_1.to_i + operand_2.to_i
+    end
+  end
 end
 
 puts WordProblem.new("What is 2 multiplied by -2 multiplied by 3?").answer
-
-def method_name(array)
-  
-end

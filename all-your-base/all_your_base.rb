@@ -2,19 +2,15 @@ require 'byebug'
 class BaseConverter
   def self.convert(input_base, digits, output_base)
     raise ArgumentError if input_base <= 1 || output_base <= 1
+    digits.any? {|element| raise ArgumentError if element < 0 || element >= input_base }
     result = []
-    digits.reverse.each_with_index do |element, index| 
-      raise ArgumentError if element < 0 
-      # raise ArgumentError if element >= input_base
-      result << element*input_base**index 
-    end
-    result.sum
+    digits.reverse.each_with_index { |element, index| result << element*input_base**index }
     change_to_output_base(result.sum, output_base)
   end
 
   def self.change_to_output_base(number, output_base)
     result = []
-    while number > output_base
+    until number < output_base
       result << number % output_base
       number = number / output_base
     end
@@ -54,10 +50,4 @@ end
 #     end
 #   end
 # end
-
-
-
-
-
-
 

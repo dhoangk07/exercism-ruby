@@ -2,39 +2,30 @@ require 'byebug'
 class WordProblem
   def initialize(string)
     @string = string
+
   end
 
   def answer
-    arrays = @string.gsub!('?', '').split(' ')
         # debugger
-    remove_items = remove_element(arrays)
-    switch_items = switch_element(remove_items)
-    multiple_element(switch_items)
-  end
-
-  def remove_element(array)
-        # debugger
-    result = []
-    array.each do |element|
-      if element.scan(/^\-?[0-9]+$/).size == 1
-        result << element
-      elsif element == 'plus'
-        result << element
-      elsif element == "minus"
-        result << element
-      elsif element == "multiplied"
-        result << element
-      elsif element == "divided"
-        result << element
-      end
+    if @string.scan(/[0-9]/).length ==0
+      raise 
     end
-    result
+    result = []
+    ss = @string.gsub!('?', '')
+    arrays = ss.split(' ')
+    switch_items = switch_element(arrays)
+    if switch_items.length == 3
+      result << three_element(switch_items)
+    else
+      result << five_element(switch_items)
+    end
+    result[0]
   end
 
   def switch_element(array)
     result = []
     array.each do |element|
-        # debugger
+          # debugger
       if element.scan(/^\-?[0-9]+$/).size == 1
         result << element
       elsif element == 'plus'
@@ -50,12 +41,23 @@ class WordProblem
     result
   end
 
-  def multiple_element(array)
+  def three_element(array)
+    handle_simple_expression(array[0], array[1], array[2])
+  end
+  # [[1, 2, 3], [4, 5]]
+  def five_element(array)
+        # debugger
+    slice_arrays =  array.each_slice(3).to_a
     result = []
-    array.each_slice(3) do |element|
-      result << element
+    slice_arrays.each do |element|
+          # debugger
+      if element.length == 3
+        result << three_element(element)
+      else
+        result << element
+      end
     end
-    result
+    three_element(result.flatten)
   end
 
   def handle_simple_expression(operand_1, operator, operand_2)
@@ -64,8 +66,22 @@ class WordProblem
       operand_1.to_i * operand_2.to_i
     when '+'
       operand_1.to_i + operand_2.to_i
+    when '/'
+      operand_1.to_i / operand_2.to_i
+    when '-'
+      operand_1.to_i - operand_2.to_i
     end
   end
 end
 
-puts WordProblem.new("What is 2 multiplied by -2 multiplied by 3?").answer
+puts WordProblem.new("Who is the President of the United States?").answer
+
+
+
+  # def multiple_element(array)
+  #   result = []
+  #   array.each_slice(3) do |element|
+  #     result << element
+  #   end
+  #   result
+  # end

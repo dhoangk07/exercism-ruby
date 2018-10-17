@@ -6,18 +6,17 @@ class WordProblem
   end
 
   def answer
-        # debugger
-    if @string.scan(/[0-9]/).length ==0
-      raise 
-    end
+    
     result = []
     ss = @string.gsub!('?', '')
     arrays = ss.split(' ')
     switch_items = switch_element(arrays)
     if switch_items.length == 3
       result << three_element(switch_items)
-    else
+    elsif switch_items.length == 5
       result << five_element(switch_items)
+    elsif switch_items.length < 3
+      raise ArgumentError
     end
     result[0]
   end
@@ -74,9 +73,9 @@ class WordProblem
   end
 end
 
-puts WordProblem.new("Who is the President of the United States?").answer
+# puts WordProblem.new("Who is the President of the United States?").answer
 
-
+puts WordProblem.new("What is -3 plus 7 multiplied by -2?").answer
 
   # def multiple_element(array)
   #   result = []

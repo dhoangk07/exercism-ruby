@@ -1,42 +1,53 @@
 require 'byebug'
+class Stack
+  def initialize
+    @stack = []
+  end
+
+  def push(element)
+    @stack << element
+  end
+
+  def pop
+    @stack.pop
+  end
+
+  def length
+    @stack.length
+  end
+end
+
 class Brackets
   def self.paired?(input)
-    string = input.scan(/[(){}\[\]]/).join
-    if string.length.odd?
-      return false 
-    else
-      result = []
-      new_arrays = string.split("")
-      for index in 0..new_arrays.length
-        slice_arrays = new_arrays.slice(index, 2)
-          if pure_bracket?(slice_arrays.join)
-            new_arrays.slice!(index, 2)
-          end
-        result << new_arrays if new_arrays.length == 2
+    stack = Stack.new
+    input.each_char do |element|
+      if open_bracket?(element)
+        stack.push(element)
+      elsif close_bracket?(element)
+        return false unless match_bracket?(element, stack.pop)
       end
-      pure_bracket?(result.join)
     end
+    stack.length <= 0
   end
-# ('{[])')
-  def self.pure_bracket?(string)
-    if brackets?(string) || braces?(string) || parentheses?(string) || string == ''
-      return true 
+
+  def self.open_bracket?(element)
+    ['(', '{','['].include?(element)
+  end
+
+  def self.close_bracket?(element)
+    [')', '}',']'].include?(element)
+  end
+
+  def self.match_bracket?(close_bracket, open_bracket)
+    case close_bracket
+    when ')'
+      open_bracket == '('
+    when ']'
+      open_bracket == '['
+    when '}'
+      open_bracket == '{'
     else
       false
     end
   end
-
-  def self.brackets?(string)
-    string.include?("[]") && string.include?("[") && string.include?("]")
-  end
-
-  def self.braces?(string)
-    string.include?("{}") && string.include?("{") && string.include?("}")
-  end
-
-  def self.parentheses?(string)
-    string.include?("()") && string.include?("(") && string.include?(")")
-  end
 end
-
-puts Brackets.paired?('{[])')

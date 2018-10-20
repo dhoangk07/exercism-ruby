@@ -1,44 +1,60 @@
 require 'byebug'
 class Transpose
   def self.transpose(input)
-    initial_arrays = input.split(" ")
+    return "" if input == ''
+    initial_arrays = input.split("\n")
+        # debugger
     length = initial_arrays.length
+    # initial_arrays.map!{|e| e.gsub!(".", ".").split('') }
+
+    result = []
+    initial_arrays.each do |element|
+      if element == length_max(initial_arrays)
+        result << element.gsub!(".", " .")
+            # debugger
+      else
+        result << element
+      end
+    end
+    initial_arrays = result
+    # debugger
     length_first_element = initial_arrays[0].length
     result = []
-    index = 0
-    xedni = 0
-    while index < length
-          # debugger
-          # [["1", "2", "3", "4", "5"], 
-          #  ["6", "7", "8", "9", "0"]]
-      if xedni == 0 || xedni == length || xedni == length_first_element
-        xedni = 0
-        while  xedni < length 
-              debugger
-          result << split(initial_arrays)[xedni][index]
-          # xedni = 0
-          xedni += 1
-        end 
+    i_index = 0
+    while i_index < length_first_element 
+      j_index = 0
+      result << []
+      while j_index < length
+        result[i_index][j_index] = initial_arrays[j_index][i_index]
+            # debugger
+        # result[i_index][1] = initial_arrays[1][i_index] if i_index == length_first_element
+        j_index += 1
       end
-      index += 1
+      i_index += 1
     end
-        # debugger
-    result.each_slice(length).to_a
+            # debugger
+            result
+    result.map{|a| a.join('')}.join("\n")
   end
 
-  def self.split(array)
-    result = []
+  def self.length_max(array)
+    result = {}
     array.each do |element|
-      result << element.split("")
+      result[element] = element.length
     end
-    result
+    result.key(result.values.max)
   end
 end
 
-input = <<-INPUT.gsub(/^ {6}/, '').strip
-      12345
-      67890
-INPUT
+# input = <<-INPUT.gsub(/^ {6}/, '').strip
+#       The longest line.
+#       A long line.
+#       A longer line.
+#       A line.
+#     INPUT
 
-# input = [
-puts Transpose.transpose(input)
+    input = <<-INPUT.gsub(/^ {6}/, '').strip
+      The first line.
+      The second line.
+    INPUT
+puts Transpose.transpose(input).to_s

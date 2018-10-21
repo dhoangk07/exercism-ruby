@@ -4,35 +4,31 @@ class WordProblem
     @string = string
   end
 
-  # def answer
-    
-  #   result = []
-  #   ss = @string.gsub!('?', '')
-  #   arrays = ss.split(' ')
-  #   switch_items = switch_element(arrays)
-  #   if switch_items.length == 3
-  #     result << three_element(switch_items)
-  #   elsif switch_items.length == 5
-  #     result << five_element(switch_items)
-  #   elsif switch_items.length < 3
-  #     raise ArgumentError
-  #   end
-  #   result[0]
-  # end
-
   def answer
     result = []
-    ss = @string.gsub!('?', '')
-    arrays = ss.split(' ')
-        debugger
+    arrays = @string.gsub!('?', '').split(' ')
     switch_items = switch_element(arrays)
     raise ArgumentError if switch_items.length < 3
-    initial_arrays = switch_items.shift(3)
-        debugger
-    result << three_element(initial_arrays)
-    result << switch_items
-        debugger
-    three_element(result.flatten)
+    index = 3
+    final = []
+    length = switch_items.length 
+    while index < length 
+      first = three_element(switch_items[0..2])
+      result << first
+      remain_array = remain_array(switch_items, switch_items[0..2])
+      switch_items = []
+      switch_items << [result, remain_array ].flatten
+      length = switch_items.flatten.length
+      index += 1
+    end
+    return three_element(switch_items.flatten)
+  end
+
+  def remain_array(exist_array, _minus_array)
+    index = exist_array.index(_minus_array.first)
+    length = _minus_array.length
+    exist_array.slice!(index, length)
+    exist_array
   end
 
   def switch_element(array)
@@ -54,26 +50,11 @@ class WordProblem
   end
 
   def three_element(array)
-        debugger
     handle_simple_expression(array[0], array[1], array[2])
-  end
-  # [[1, 2, 3], [4, 5]]
-  def five_element(array)
-    slice_arrays =  array.each_slice(3).to_a
-    result = []
-    slice_arrays.each do |element|
-      if element.length == 3
-        result << three_element(element)
-      else
-        result << element
-      end
-    end
-    three_element(result.flatten)
   end
 
   def handle_simple_expression(operand_1, operator, operand_2)
-    if operator == 0 && operand_2 ==0
-          debugger
+    if operator == 0 && operand_2 == 0
       return operand_1
     else
       case operator
@@ -90,14 +71,4 @@ class WordProblem
   end
 end
 
-# puts WordProblem.new("Who is the President of the United States?").answer
-
-puts WordProblem.new("What is -1 plus -10?").answer
-
-  # def multiple_element(array)
-  #   result = []
-  #   array.each_slice(3) do |element|
-  #     result << element
-  #   end
-  #   result
-  # end
+puts WordProblem.new("What is 33 divided by -3?").answer

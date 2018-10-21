@@ -78,7 +78,7 @@ class WordyTest < Minitest::Test
   def test_addition_and_multiplication
     # skip
     problem = WordProblem.new("What is -3 plus 7 multiplied by -2?")
-    message = "You should ignore order of precedence. -3 + 7 * -2 = -8, not #{problem.answer}"
+    # message = "You should ignore order of precedence. -3 + 7 * -2 = -8, not #{problem.answer}"
     assert_equal(-8, problem.answer, message)
   end
 

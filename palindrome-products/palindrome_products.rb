@@ -1,68 +1,32 @@
 require 'byebug'
 class Palindromes
-  def initialize(min_factor=0, max_factor)
+  def initialize(max_factor:, min_factor:)
+        debugger
     @max_factor = max_factor
     @min_factor = min_factor
   end
 
   def generate
-    max = @max_factor.values[0]
-    @min_factor == 0 ? min = 0 : min = @min_factor.values[0]
-    (min..max).to_a
-  end
-
-  def largest
-    Palindrome.new(2)
-  end
-
-  def smallest
-    Palindrome.new(1)
-  end
-end
-
-class Palindrome
-  def initialize(value)
-    @value = value
-  end
-
-  def value
-    2
-  end
-
-  def factors
-    [2,3]
-  end
-end
-
-
-class FirstLayer
-  attr_reader :palindromes
-
-  def initialize(number)
-    palindromes = Palindromes.new(min_factor=0, max_factor)
-  end
-
-  def largest
-    generate.max
-  end
-
-  def smallest
-    generate.min
-  end
-end
-
-class SecondLayer
-  attr_reader :largest
-
-  def initialize(number)
-    largest = SecondLayer.new(number)
-  end
-  def value
+    # max = @max_factor.values[0]
+    # @min_factor == 0 ? min = 0 : min = @min_factor.values[0]
+    max = @max_factor
+    min = @min_factor
+    initial_arrays = (min..max).to_a
+    a = (min..max).to_a
+    b = a.reverse
+    i_index = 2
     result = []
-    generate.each do |element|
-      result << element if _dromes(element)
+    a.each do |element|
+      b.each do |ele|
+        result << [ele, element] if _dromes(ele * element) 
+            debugger
+      end
     end
-    result
+    final = []
+    result.each do |element|
+      final << element if _dromes(element[0] * element[1]) && element[0] * element[1] != 0
+    end
+    final
   end
 
   def _dromes(number)
@@ -87,12 +51,80 @@ class SecondLayer
     end
     result.flatten(1)[0] == result.flatten(1)[1].reverse ? true : false  
   end
+
+  def largest
+    # largest = Palindrome.new(generate)
+    # largest
+    a = generate.values.max
+    b = generate.keys.max
+    largest = Palindrome.new(a, b)
+  end
+
+  def smallest
+    a = generate.values.max
+    b = generate.keys.max
+    smallest = Palindrome.new(a, b)
+    smallest
+  end
 end
 
-palinds = Palindromes.new(max_factor: 99, min_factor: 10)
-debugger
-puts palinds
-# puts l.value
-# puts l.largest
-# puts l.largest.value
+class Palindrome
+  def initialize(value, factors)
+    @value = value
+    @factors = factors
+  end
 
+  def value
+    result = {}
+    @generate.each do |element|
+      result[[element[0], element[1]]] = element[0] * element[1]
+    end
+    @value = result.values
+  end
+
+  def factors
+    result = {}
+    @generate.each do |element|
+      result[[element[0], element[1]]] = element[0] * element[1]
+    end
+    @factors = result.keys
+  end
+end
+
+
+ palindromes = Palindromes.new(max_factor: 99, min_factor: 10)
+   puts palindromes.generate
+# a = [3,4,5]
+
+# min = a.min
+# max = a.max
+
+
+# class Palindrome
+#   def initialize(generate)
+#     @generate = generate
+#   end
+
+#   def value
+#     result = {}
+#     @generate.each do |element|
+#       result[[element[0], element[1]]] = element[0] * element[1]
+#     end
+#         debugger
+#     result.values
+#   end
+
+#   def factors
+#     result = {}
+#     @generate.each do |element|
+#       result[[element[0], element[1]]] = element[0] * element[1]
+#     end
+#     result.keys
+#   end
+# end
+
+# palindromes = Palindromes.new(max_factor: 99, min_factor: 10)
+#   puts  palindromes.generate
+#     debugger
+#   puts  smallest = palindromes.smallest
+#   puts smallest.value

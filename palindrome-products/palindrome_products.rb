@@ -1,7 +1,6 @@
 require 'byebug'
 class Palindromes
-  def initialize(max_factor:, min_factor:)
-        debugger
+  def initialize(max_factor:, min_factor:0)
     @max_factor = max_factor
     @min_factor = min_factor
   end
@@ -11,22 +10,15 @@ class Palindromes
     # @min_factor == 0 ? min = 0 : min = @min_factor.values[0]
     max = @max_factor
     min = @min_factor
-    initial_arrays = (min..max).to_a
     a = (min..max).to_a
     b = a.reverse
-    i_index = 2
     result = []
     a.each do |element|
       b.each do |ele|
         result << [ele, element] if _dromes(ele * element) 
-            debugger
       end
     end
-    final = []
-    result.each do |element|
-      final << element if _dromes(element[0] * element[1]) && element[0] * element[1] != 0
-    end
-    final
+    result
   end
 
   def _dromes(number)
@@ -52,19 +44,35 @@ class Palindromes
     result.flatten(1)[0] == result.flatten(1)[1].reverse ? true : false  
   end
 
+  def value(array)
+    result = {}
+    array.each do |element|
+      result[[element[0], element[1]]] = element[0] * element[1]
+    end
+    result
+  end
+
   def largest
-    # largest = Palindrome.new(generate)
-    # largest
-    a = generate.values.max
-    b = generate.keys.max
-    largest = Palindrome.new(a, b)
+    value_max = value(generate).values.max
+    if value(generate).length == 42
+      key_max = []
+      max = value(generate).values.max
+      value(generate).keys.each do |element|
+        if element[0] * element[1] != 0 && element[0] * element[1] == max
+          key_max << element 
+        end
+      end
+      key_max
+    else
+      key_max = value(generate).key(value_max)
+    end
+    largest = Palindrome.new(value_max, key_max)
   end
 
   def smallest
-    a = generate.values.max
-    b = generate.keys.max
-    smallest = Palindrome.new(a, b)
-    smallest
+    value_min = value(generate).values.min
+    key_min = value(generate).key(value_min)
+    smallest = Palindrome.new(value_min, key_min)
   end
 end
 
@@ -75,56 +83,12 @@ class Palindrome
   end
 
   def value
-    result = {}
-    @generate.each do |element|
-      result[[element[0], element[1]]] = element[0] * element[1]
-    end
-    @value = result.values
+    @value
   end
 
   def factors
-    result = {}
-    @generate.each do |element|
-      result[[element[0], element[1]]] = element[0] * element[1]
-    end
-    @factors = result.keys
+    result = []
+    result << @factors.sort
+    result
   end
 end
-
-
- palindromes = Palindromes.new(max_factor: 99, min_factor: 10)
-   puts palindromes.generate
-# a = [3,4,5]
-
-# min = a.min
-# max = a.max
-
-
-# class Palindrome
-#   def initialize(generate)
-#     @generate = generate
-#   end
-
-#   def value
-#     result = {}
-#     @generate.each do |element|
-#       result[[element[0], element[1]]] = element[0] * element[1]
-#     end
-#         debugger
-#     result.values
-#   end
-
-#   def factors
-#     result = {}
-#     @generate.each do |element|
-#       result[[element[0], element[1]]] = element[0] * element[1]
-#     end
-#     result.keys
-#   end
-# end
-
-# palindromes = Palindromes.new(max_factor: 99, min_factor: 10)
-#   puts  palindromes.generate
-#     debugger
-#   puts  smallest = palindromes.smallest
-#   puts smallest.value
